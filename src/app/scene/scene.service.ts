@@ -14,15 +14,26 @@ export class SceneService {
   private decay = 2.0;
   constructor() { }
 
+  private sample = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  private randomNumberInRange = (min, max) => Math.random() * (max - min) + min;
+
   public getNewLight():THREE.PointLight {
     let color = this.sample(this.colorList);
     let light = new THREE.PointLight(color, this.intensity, this.distance, this.decay);    
-    let sphere = new THREE.SphereBufferGeometry( 0.25, 16, 8 );
+    let sphere = new THREE.SphereBufferGeometry( 0.25, 16, 700);
     
     let theta = this.randomNumberInRange(0,360)
     let lambda = this.randomNumberInRange(0,360)
 
-    light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color } ) ) );
+
+    let material = new THREE.MeshBasicMaterial( { 
+      color:color,
+      specular: 0x050505,
+      shininess: 100
+    });
+
+    light.add( new THREE.Mesh( sphere, material) );
 
     light.position.set( 3 * Math.sin(lambda) * Math.cos(theta), 3 * Math.sin(lambda) * Math.sin(theta), 3 * Math.cos(lambda) );
 
@@ -32,16 +43,11 @@ export class SceneService {
     return light;
   }
 
-  private sample = arr => arr[Math.floor(Math.random() * arr.length)];
-
-  private randomNumberInRange = (min, max) => Math.random() * (max - min) + min;
-
   public animateLights(lights):void {
     for( let light of lights){
       light.theta += 0.01;
       light.lambda += 0.05;
       light.position.set( 3 * Math.sin(light.lambda) * Math.cos(light.theta), 3 * Math.sin(light.lambda) * Math.sin(light.theta), 3 * Math.cos(light.lambda) );
-    
     }
   }
 }

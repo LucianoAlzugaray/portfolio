@@ -14,6 +14,7 @@ export class SceneComponent implements AfterViewInit {
   private renderer : THREE.WebGLRenderer;
   private lights: THREE.PointLight[] = [];
   private directionalLight: THREE.DirectionalLight;
+  
   @ViewChild('canvas')
   private canvasRef: ElementRef;
 
@@ -64,7 +65,7 @@ export class SceneComponent implements AfterViewInit {
   private createCamera(
     fieldOfView:number = 60,
     nearClippingPane: number = 0.1,
-    farClippingPane: number = 1100
+    farClippingPane: number = 200
   ) {
     let aspectRatio = this.getAspectRatio();
     this.camera = new THREE.PerspectiveCamera(
