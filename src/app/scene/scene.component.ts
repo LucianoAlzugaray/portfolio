@@ -10,7 +10,9 @@ import * as THREE from 'three';
 export class SceneComponent implements AfterViewInit {
 
   private scene : THREE.Scene;
+  private oclscene: THREE.Scene;
   private camera : THREE.PerspectiveCamera;
+  private oclcamera : THREE.PerspectiveCamera;
   private renderer : THREE.WebGLRenderer;
   private lights: THREE.PointLight[] = [];
   private directionalLight: THREE.DirectionalLight;
@@ -35,6 +37,9 @@ export class SceneComponent implements AfterViewInit {
 
   private createScene():void {
     this.scene = new THREE.Scene();
+  
+    this.oclscene = new THREE.Scene();
+    this.oclscene.add( new THREE.AmbientLight( 0xffffff ) );
   }
 
   private createElements(): void {
@@ -79,6 +84,10 @@ export class SceneComponent implements AfterViewInit {
     this.camera.position.x = -5;
     this.camera.position.y = 0;
     this.camera.position.z = 10;
+
+    // // OCCLUSION SCENE
+    // this.oclcamera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearClippingPane, farClippingPane ); 
+    // this.oclcamera.position = this.camera.position;
   }
 
   private startRendering():void {
@@ -97,9 +106,27 @@ export class SceneComponent implements AfterViewInit {
     }
   }
 
+  private prepareScene(){
+    // Base object
+//     var zmesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial() );
+//     zmesh.position.set( x, y, z );
+//     zmesh.scale.set( 3, 3, 3 );
+//     this.scene.add( zmesh );
+//  
+    // Occluding object
+//     var gmat = new THREE.MeshBasicMaterial( { color: 0x000000, map: null } );
+//     var geometryClone = THREE.GeometryUtils.clone( geometry );
+//     var gmesh = new THREE.Mesh(geometryClone, gmat);
+//     gmesh.position = zmesh.position;
+//     gmesh.rotation = zmesh.rotation;
+//     gmesh.scale = zmesh.scale;
+//     this.oclscene.add(gmesh);
+  }
+
   ngAfterViewInit():void {
     this.createScene();
     this.createElements();
+    this.prepareScene();
     this.createCamera();
     this.startRendering();
   }

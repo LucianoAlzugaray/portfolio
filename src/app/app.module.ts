@@ -6,16 +6,19 @@ import { SceneComponent } from './scene/scene.component';
 import { HomeComponent } from './home/home.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     SceneComponent,
-    HomeComponent,
+    HomeComponent
   ],
   imports: [
+    
     BrowserModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
