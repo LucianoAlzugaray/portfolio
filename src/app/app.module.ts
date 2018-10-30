@@ -6,14 +6,14 @@ import { SceneComponent } from './layout/scene/scene.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from './app-routing.module';
-import { TopmenuComponent } from './layout/topmenu/topmenu.component';
+import { TopbarComponent } from './layout/topbar/topbar.component';
 import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SceneComponent,
-    TopmenuComponent,
+    TopbarComponent,
     HomeComponent
   ],
   imports: [
