@@ -8,13 +8,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from './app-routing.module';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { HomeComponent } from './pages/home/home.component';
+import { QuienSoyComponent } from './pages/quiensoy/quiensoy.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SceneComponent,
     TopbarComponent,
-    HomeComponent
+    HomeComponent,
+    QuienSoyComponent
   ],
   imports: [
     

@@ -12,10 +12,12 @@ export class SceneComponent implements AfterViewInit {
   private scene : THREE.Scene;
   private oclscene: THREE.Scene;
   private camera : THREE.PerspectiveCamera;
-  private oclcamera : THREE.PerspectiveCamera;
   private renderer : THREE.WebGLRenderer;
   private lights: THREE.PointLight[] = [];
+  private lightSphere: THREE.PointLight;
   private directionalLight: THREE.DirectionalLight;
+  private readonly DEFAULT_LAYER = 0;
+  private readonly OCCLUSION_LAYER = 1;
   
   @ViewChild('canvas')
   private canvasRef: ElementRef;
@@ -37,12 +39,24 @@ export class SceneComponent implements AfterViewInit {
 
   private createScene():void {
     this.scene = new THREE.Scene();
-  
+    
     this.oclscene = new THREE.Scene();
     this.oclscene.add( new THREE.AmbientLight( 0xffffff ) );
   }
 
   private createElements(): void {
+    
+    // a white sphere serves as the light in the scene used 
+    // to create the effect
+    var geometry = new THREE.SphereBufferGeometry( 1, 16, 16 );
+    var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+    this.lightSphere = new THREE.Mesh( geometry, material );
+    this.lightSphere.layers.set( this.OCCLUSION_LAYER );
+    // layers are a newer addition to three.js ( as of r74 )
+    // they control what objects a camera is able to see. This way 
+    // only one scene needs to be used for both rendering passes
+    this.scene.add( this.lightSphere );
+
     
     // CORE
     let sphere = new THREE.Mesh( 
