@@ -9,6 +9,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { QuienSoyComponent } from './pages/quiensoy/quiensoy.component';
+import { TecnologiasComponent } from './pages/tecnologias/tecnologias.component';
+import { TrabajosComponent } from './pages/trabajos/trabajos.component';
+import { ContactoComponent } from './pages/contacto/contacto.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { QuienSoyComponent } from './pages/quiensoy/quiensoy.component';
     SceneComponent,
     TopbarComponent,
     HomeComponent,
-    QuienSoyComponent
+    QuienSoyComponent,
+    TecnologiasComponent,
+    TrabajosComponent,
+    ContactoComponent
   ],
   imports: [
     

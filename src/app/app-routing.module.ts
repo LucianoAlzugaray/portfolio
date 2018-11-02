@@ -3,10 +3,17 @@ import { RouterModule, Routes }  from '@angular/router';
  
 import { HomeComponent }   from './pages/home/home.component';
 import { QuienSoyComponent } from './pages/quiensoy/quiensoy.component' 
+import { TecnologiasComponent } from './pages/tecnologias/tecnologias.component' 
+import { TrabajosComponent } from './pages/trabajos/trabajos.component' 
+import { ContactoComponent } from './pages/contacto/contacto.component' 
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'quiensoy', component: QuienSoyComponent},
+  { path: 'tecnologias', component: TecnologiasComponent},
+  { path: 'trabajos', component: TrabajosComponent},
+  { path: 'contacto', component: ContactoComponent},
+  
   { path: '**',   redirectTo: '', pathMatch: 'full' }
   
 ];
@@ -15,7 +22,7 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      { enableTracing: false } // <-- debugging purposes only
     )
   ],
   exports: [

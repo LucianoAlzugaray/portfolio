@@ -18,7 +18,7 @@ export class SceneService {
 
   private randomNumberInRange = (min, max) => Math.random() * (max - min) + min;
 
-  public getNewLight():THREE.PointLight {
+  public getNewLight(position):THREE.PointLight {
     let color = this.sample(this.colorList);
     let light = new THREE.PointLight(color, this.intensity, this.distance, this.decay);    
     let sphere = new THREE.SphereBufferGeometry( 0.25, 16, 700);
@@ -35,7 +35,7 @@ export class SceneService {
 
     light.add( new THREE.Mesh( sphere, material) );
 
-    light.position.set( 3 * Math.sin(lambda) * Math.cos(theta), 3 * Math.sin(lambda) * Math.sin(theta), 3 * Math.cos(lambda) );
+    light.position.set( position[0] + (3 * Math.sin(lambda) * Math.cos(theta)), position[1] + (3 * Math.sin(lambda) * Math.sin(theta)), position[2] + (3 * Math.cos(lambda)) );
 
     light.lambda = lambda;
     light.theta = theta;
@@ -43,11 +43,11 @@ export class SceneService {
     return light;
   }
 
-  public animateLights(lights):void {
+  public animateLights(lights, position):void {
     for( let light of lights){
       light.theta += 0.01;
       light.lambda += 0.05;
-      light.position.set( 3 * Math.sin(light.lambda) * Math.cos(light.theta), 3 * Math.sin(light.lambda) * Math.sin(light.theta), 3 * Math.cos(light.lambda) );
+      light.position.set( position[0] + (3 * Math.sin(light.lambda) * Math.cos(light.theta)), position[1] + (3 * Math.sin(light.lambda) * Math.sin(light.theta)), position[2] + (3 * Math.cos(light.lambda)) );
     }
   }
 }

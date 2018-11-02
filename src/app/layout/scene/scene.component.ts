@@ -1,6 +1,10 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router'
+import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { SceneService } from './scene.service';
 import * as THREE from 'three';
+import { RouteService } from '../../_services/router/route.service'
 
 @Component({
   selector: 'scene',
@@ -18,11 +22,42 @@ export class SceneComponent implements AfterViewInit {
   private directionalLight: THREE.DirectionalLight;
   private readonly DEFAULT_LAYER = 0;
   private readonly OCCLUSION_LAYER = 1;
-  
+  private position = [0,0,0]
+  private url: string; 
+
   @ViewChild('canvas')
   private canvasRef: ElementRef;
+  sphere: any;
 
-  constructor(private sceneService:SceneService) { 
+  constructor(private sceneService:SceneService, private router:Router, private routeService: RouteService) { 
+    this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(e => {
+      this.url = JSON.parse(JSON.stringify(e)).url   
+      if (this.routeService.isInHome(this.url)){
+        this.lightsOn()
+      } else {
+        this.lightsOff()
+      }
+
+    });
+  }
+
+  ngOnInit(){
+  }
+
+  private lightsOn() {
+    this.position = [0,0,0]
+    this.sphere.position.x= this.position[0];
+    this.sphere.position.y= this.position[1];
+    this.sphere.position.z= this.position[2];
+    this.directionalLight.intensity = 2;
+  }
+
+  private lightsOff() {
+    this.position = [20,20,20]
+    this.sphere.position.x= this.position[0];
+    this.sphere.position.y= this.position[1];
+    this.sphere.position.z= this.position[2];
+    this.directionalLight.intensity = 0;
   }
 
   private get canvas(): HTMLCanvasElement {
@@ -59,16 +94,16 @@ export class SceneComponent implements AfterViewInit {
 
     
     // CORE
-    let sphere = new THREE.Mesh( 
+    this.sphere = new THREE.Mesh( 
     new THREE.SphereBufferGeometry(2,32,32 ), 
     new THREE.MeshStandardMaterial( {color: 0x999999} ) 
     );
-    sphere.position.x= 0;
-    sphere.position.y= 0;
-    sphere.position.z= 0;
+    this.sphere.position.x= this.position[0];
+    this.sphere.position.y= this.position[1];
+    this.sphere.position.z= this.position[2];
     
 
-    this.scene.add( sphere );
+    this.scene.add( this.sphere );
     
     this.makeLightList(10);
     
@@ -114,7 +149,7 @@ export class SceneComponent implements AfterViewInit {
 
   private makeLightList(quantity:number):void {
     for(let i = 0; i < quantity; i++) {
-      let light = this.sceneService.getNewLight();
+      let light = this.sceneService.getNewLight(this.position);
       this.scene.add(light);
       this.lights.push(light);
     }
@@ -148,8 +183,8 @@ export class SceneComponent implements AfterViewInit {
   animate():void {
     requestAnimationFrame( this.animate.bind(this) );
     
-    this.sceneService.animateLights(this.lights)
-
+    this.sceneService.animateLights(this.lights, this.position)
+    
     this.renderer.render( this.scene, this.camera );
   }
 }
